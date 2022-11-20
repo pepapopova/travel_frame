@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Wonderland!</title>
+</head>
+<body>
+{% include 'common/navigation.html' %}
+<header>Welcome travellers! </header>
+<h1>
+    {% if request.user.is_authenticated %}
+    Hello {{ request.user.username }}
+    {% else %}
+    You should register!
+    {% endif %}
+</h1>
+
+<ul>
+    <li>
+        {% for photo in travel_photos %}
+            {{ photo.photo.url }}
+        {{ photo.photo }}
+        {% endfor %}
+    </li>
+</ul>
+</body>
+</html>
