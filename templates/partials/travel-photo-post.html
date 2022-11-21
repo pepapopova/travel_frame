@@ -1,36 +1,6 @@
-{##}
 {#{% load static %}#}
 {##}
-{#<div class="card">#}
-{#    <div class="top">#}
-{#        <div class="userDetails">#}
-{#            <!-- Link to User Profile Page -->#}
-{#            <a href="#">#}
-{#                <div class="profilepic">#}
-{#                    <div class="profile_img">#}
-{#                        <div class="image">#}
-{#                            <img src="{% static 'images/person.png' %}" alt="img8">#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </a>#}
-{#            <h3>#}
-{#                <!-- Link to User Profile Page -->#}
-{#                <a href="{% url 'details user' pk=1 %}">#}
-{#                    <!-- if user has first name and last name -->#}
-{#                    Diyan Kalaydzhiev#}
-{#                    <!-- else -->#}
-{#                    <!-- show user username -->#}
-{#                </a>#}
-{#                <br>#}
-{#                {% if photo.location %}#}
-{#                    <span>{{ photo.location }}</span>#}
-{#                {% endif %}#}
-{#            </h3>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    <div class="imgBx" id="photo-{{ photo.pk }}">#}
+{#    <div class="imgBx" id="photo-{{ travelphoto.pk }}">#}
 {#        <img src="media/{{ photo.photo }}" alt="post" class="cover">#}
 {#    </div>#}
 {##}
@@ -97,7 +67,7 @@
 {#        <p class="likes">{{ photo.likes_count }} likes</p>#}
 {##}
 {#        {% for pet in photo.tagged_pets.all %}#}
-            {# TODO: change username to actual user when auth is available #}
+{#             TODO: change username to actual user when auth is available#}
 {#            <a href="{% url 'details pet' username='doncho' pet_slug=pet.slug %}">#}
 {#                <p class="message">#}
 {#                    <b>{{ pet.name }}</b>#}
@@ -126,7 +96,7 @@
 {#                                </div>#}
 {#                            </div>#}
 {#                            <p>#}
-                                {# TODO: fix with auth #}
+{#                                 TODO: fix with auth#}
 {#                                <a href="">Steven Ivanov</a>#}
 {#                                <!-- User Comment -->#}
 {#                                {{ comment.text }}#}

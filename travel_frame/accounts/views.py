@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from travel_frame.accounts.forms import UserCreateForm
+from travel_frame.travel_photos.models import TravelPhoto
 
 UserModel = get_user_model()
 
@@ -31,6 +32,8 @@ class UserDetailsView(generic.DetailView):
         context = super().get_context_data(**kwargs)
 
         context['is_owner'] = self.request.user == self.object
+        context['travel_photos'] = self.object.travelphoto_set.all()
+        # context['photos_count'] = TravelPhoto.
 
         return context
 

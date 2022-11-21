@@ -21,7 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'travel_frame.accounts',
     'travel_frame.destinations',
-    'travel_frame.travel_photos'
+    'travel_frame.travel_photos',
+    'travel_frame.common'
 ]
 
 MIDDLEWARE = [

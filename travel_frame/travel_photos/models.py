@@ -22,11 +22,13 @@ class TravelPhoto(models.Model):
 
     date = models.DateField(
         auto_now_add=True,
+        null=False,
+        blank=True,
     )
 
-    # user = models.ManyToManyField(
-    #     UserModel,
-    # )
+    tagged_users = models.ManyToManyField(
+        UserModel, blank=True,
+    )
 
     location = models.ForeignKey(
         Country,

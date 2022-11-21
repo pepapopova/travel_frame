@@ -5,4 +5,11 @@ from travel_frame.travel_photos.models import TravelPhoto
 
 @admin.register(TravelPhoto)
 class TravelPhotoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('location', 'date', 'tagged_users')
+
+    @staticmethod
+    def tagged_users(obj):
+        tagged_users = obj.tagged_users_set.all()
+        if tagged_users:
+            return ', '.join(p.username for p in tagged_users)
+        return 'No tagged users'

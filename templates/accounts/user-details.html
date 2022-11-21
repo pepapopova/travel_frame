@@ -45,7 +45,11 @@
                 {% endif %}
             </div>
         </div>
-
+        {% if travel_photos %}
+        {% for photo in travel_photos %}
+            {{ photo.photo }}
+        {% endfor %}
+        {% endif %}
 {#        <div class="pets">#}
 {#            <div class="statuses">#}
 {#                {% for pet in object.pet_set.all %}#}
