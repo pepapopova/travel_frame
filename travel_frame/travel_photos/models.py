@@ -9,6 +9,8 @@ UserModel = get_user_model()
 
 class TravelPhoto(models.Model):
     DESCRIPTION_MAX_LENGTH = 400
+    CITY_MAX_LENGTH = 30
+    TAGS_MAX_LENGTH = 300
 
     photo = models.ImageField(
         upload_to='travel_photos/',
@@ -26,11 +28,13 @@ class TravelPhoto(models.Model):
         blank=True,
     )
 
-    tagged_users = models.ManyToManyField(
-        UserModel, blank=True,
+    tagged_users = models.ForeignKey(
+        UserModel,
+        on_delete=models.RESTRICT,
     )
 
     location = models.ForeignKey(
         Country,
         on_delete=models.RESTRICT,
     )
+

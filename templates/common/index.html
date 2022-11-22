@@ -18,7 +18,9 @@
 <ul>
     <li>
         {% for photo in travel_photos %}
-            {{ photo.location }}
+            <div class="imgBx" id="photo-{{ photo.pk }}">
+                <img src="media/{{ photo.photo }}" alt="post" class="cover">
+            </div>
         {% endfor %}
     </li>
 </ul>
