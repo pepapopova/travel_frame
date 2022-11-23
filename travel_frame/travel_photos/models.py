@@ -19,7 +19,7 @@ class TravelPhoto(models.Model):
     )
 
     description = models.TextField(
-        max_length= DESCRIPTION_MAX_LENGTH,
+        max_length=DESCRIPTION_MAX_LENGTH,
     )
 
     date = models.DateField(

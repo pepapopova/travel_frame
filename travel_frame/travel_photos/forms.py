@@ -8,15 +8,40 @@ class TravelPhotoBaseForm(forms.ModelForm):
     class Meta:
         model = TravelPhoto
         fields = "__all__"
-
+        labels = {
+            'photo': 'Travel Photo',
+        }
 
 class TravelPhotoPostForm(TravelPhotoBaseForm):
-    pass
+    class Meta:
+        model = TravelPhoto
+        fields = "__all__"
+        labels = {
+            'photo': 'Travel Photo',
+        }
+        widgets = {
+            'description': forms.Textarea(
+                attrs={
+                    'placeholder': 'What did you memorize about that place?'
+                })}
 
 
 class TravelPhotoEditForm(TravelPhotoBaseForm):
-    pass
+    class Meta:
+        model = TravelPhoto
+        exclude = ('photo', 'date', 'tagged_user')
 
 
 class TravelPhotoDeleteForm(TravelPhotoBaseForm):
-    pass
+    class Meta:
+        model = TravelPhoto
+        fields = ()
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     # self._disable_fields()
+    #     #
+    def save(self, commit=True):
+        if commit:
+            self.instance.delete()
+        return self.instance
