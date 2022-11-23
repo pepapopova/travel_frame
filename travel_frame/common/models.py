@@ -41,3 +41,22 @@ class TravelPhotoComment(models.Model):
         null=False,
         blank=True,
     )
+
+
+class TravelPhotoSave(models.Model):
+    class Meta:
+        verbose_name_plural = "Travel Photos Save"
+
+    saved_photos = models.ForeignKey(
+        TravelPhoto,
+        on_delete=models.RESTRICT,
+        null=False,
+        blank=True
+    )
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.RESTRICT,
+        null=False,
+        blank=True
+    )

@@ -37,3 +37,9 @@ class TravelUser(AbstractUser):
         null=True,
         blank=True
     )
+
+    profile_pic = models.ImageField(
+        upload_to='profile_pics',
+        null=True,
+        blank=True,
+    )

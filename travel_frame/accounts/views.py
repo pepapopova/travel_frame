@@ -33,7 +33,7 @@ class UserDetailsView(generic.DetailView):
 
         context['is_owner'] = self.request.user == self.object
         context['travel_photos'] = self.object.travelphoto_set.all()
-        # context['photos_count'] = TravelPhoto.
+        context['saved_photos'] = self.object.travelphotosave_set.all()
 
         return context
 
@@ -41,7 +41,7 @@ class UserDetailsView(generic.DetailView):
 class UserEditView(generic.UpdateView):
     template_name = 'accounts/user-edit.html'
     model = UserModel
-    fields = ('first_name', 'last_name', 'email', 'gender', 'age')
+    fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'profile_pic')
 
     def get_success_url(self):
         return reverse_lazy('details user', kwargs={

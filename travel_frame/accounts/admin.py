@@ -12,7 +12,8 @@ class UserAdmin(auth_admin.UserAdmin):
     add_form = UserCreateForm
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        ("Personal info", {"fields": ("first_name", "last_name", "email", "gender", "age")}),
+        ("Personal info", {"fields": ("first_name", "last_name", "email",
+                                      "gender", "age", "profile_pic")}),
         ("Permissions", {"fields": (
             "is_active",
             "is_staff",

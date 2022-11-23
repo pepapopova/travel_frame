@@ -32,6 +32,7 @@ class Country(models.Model):
         choices=CONTINENTS,
         max_length=max_len(CONTINENTS)
     )
+
     population = models.PositiveIntegerField(
         null=True,
         blank=True

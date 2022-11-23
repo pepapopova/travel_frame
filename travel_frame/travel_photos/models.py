@@ -28,7 +28,7 @@ class TravelPhoto(models.Model):
         blank=True,
     )
 
-    tagged_users = models.ForeignKey(
+    tagged_user = models.ForeignKey(
         UserModel,
         on_delete=models.RESTRICT,
     )
@@ -38,3 +38,11 @@ class TravelPhoto(models.Model):
         on_delete=models.RESTRICT,
     )
 
+    city = models.CharField(
+        max_length=CITY_MAX_LENGTH,
+        null=True,
+        blank=False,
+    )
+
+    def __str__(self):
+        return f'{self.location} {self.date} {self.description}'
