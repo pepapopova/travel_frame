@@ -1,11 +1,15 @@
-{#{% extends 'base/base.html' %}#}
+{% extends 'common/base.html' %}
 {% load static %}
-{#{% block page_content %}#}
+{% block content %}
     <div class="profile">
         <div class="profile-data">
             <div class="profile_img">
                 <div class="image">
-                    <img src="{% static 'person.png' %}" alt="no-profile-pic">
+                    {% if not object.profile_pic %}
+                        <img src="{% static 'person.png' %}" alt="no-profile-pic">
+                    {% else %}
+                        <img src="/media/{{ object.profile_pic }}" alt="profile-pic">
+                    {% endif %}
                 </div>
             </div>
             <div class="personal">
@@ -101,5 +105,5 @@
 {##}
 {#    </div>#}
 {#    <!-- End Profile Details Section -->#}
-{##}
-{#{% endblock %}#}
+
+{% endblock %}

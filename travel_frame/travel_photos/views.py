@@ -30,6 +30,7 @@ def post_travel_photo(request):
         context,
     )
 
+
 def edit_travel_photo(request, username, photo_id):
     travel_photo = TravelPhoto.objects.filter(username=username, photo_id=photo_id).get()
 
@@ -52,6 +53,7 @@ def edit_travel_photo(request, username, photo_id):
         'travel_photos/edit-travel-photo.html',
         context,
     )
+
 
 def delete_travel_photo(request, username, photo_id):
     travel_photo = TravelPhoto.objects.filter(username=username, photo_id=photo_id).get()

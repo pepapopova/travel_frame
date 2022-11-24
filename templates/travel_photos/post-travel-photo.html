@@ -1,11 +1,11 @@
-{#{% extends 'base/base.html' %}#}
-{#{% block page_content %}#}
+{% extends 'common/base.html' %}
+{% block content %}
     <div class="edit-delete edit-photo">
         <h2>Post travel photo</h2>
         <form method="post" action="{% url 'post travel photo' %}" enctype="multipart/form-data">
-            {{ form }}
+            {{ form.as_p }}
             <button class="add-btn" type="submit">Post Travel Photo</button>
             {% csrf_token %}
         </form>
     </div>
-{#{% endblock %}#}
+{% endblock %}

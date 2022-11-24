@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'common/base.html' %}
+{% block content %}
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to Wonderland!</title>
+    <title>Welcome to TraveLLLand!</title>
 </head>
-<body>
+
 {% include 'common/navigation.html' %}
 <header>Welcome travellers! </header>
 <h1>
@@ -24,5 +24,5 @@
         {% endfor %}
     </li>
 </ul>
-</body>
-</html>
+
+{% endblock %}

@@ -1,9 +1,9 @@
-{##}
-{#{% extends 'base/base.html' %}#}
-{##}
+
+{% extends 'common/base.html' %}
+
 {#{% load placeholders %}#}
-{##}
-{#{% block page_content %}#}
+
+{% block content %}
     <div class="login-register-div">
         <div class="login-register-box">
             <h1>Travel Frame</h1>
@@ -23,3 +23,5 @@
             <p>Have an account? <a href="{% url 'login user' %}">Log in</a></p>
         </div>
     </div>
+
+{% endblock %}

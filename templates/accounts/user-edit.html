@@ -1,10 +1,10 @@
-{#{% extends 'base/base.html' %}#}
-{#{% load static %}#}
-{#{% block page_content %}#}
+{% extends 'common/base.html' %}
+
+{% block content %}
 {#    <link rel="stylesheet" href="{% static 'css/profile.css' %}">#}
     <div class="edit-delete">
         <h2>Edit Profile</h2>
-        <form method="post" action="{% url 'edit user' pk=object.pk %}">
+        <form method="post" action="{% url 'edit user' pk=object.pk %}" enctype="multipart/form-data">
             {% for field in form %}
                 <p class="error"> {{ field.errors }} </p>
                 <div class="label-input">
@@ -37,3 +37,5 @@
             {% csrf_token %}
         </form>
     </div>
+
+{% endblock %}

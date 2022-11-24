@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 
 from travel_frame.common.models import TravelPhotoLike, TravelPhotoSave
@@ -5,6 +6,7 @@ from travel_frame.travel_photos.models import TravelPhoto
 from django.contrib.auth.decorators import login_required
 from travel_frame.common.forms import TravelPhotoComment
 
+UserModel = get_user_model()
 
 def get_photo_url(request, photo_id):
     return request.META['HTTP_REFERER'] + f'#photo-{photo_id}'
@@ -13,7 +15,9 @@ def get_photo_url(request, photo_id):
 def index(request):
     travel_photos = TravelPhoto.objects.all()
     context = {
-        "travel_photos": travel_photos
+        "travel_photos": travel_photos,
+        "user": UserModel,
+        'comment_form': TravelPhotoComment
     }
     return render(request, 'common/index.html', context)
 
