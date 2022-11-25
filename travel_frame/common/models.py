@@ -60,3 +60,4 @@ class TravelPhotoSave(models.Model):
         null=False,
         blank=True
     )
+

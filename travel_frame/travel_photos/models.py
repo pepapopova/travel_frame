@@ -28,7 +28,7 @@ class TravelPhoto(models.Model):
         blank=True,
     )
 
-    tagged_user = models.ForeignKey(
+    user = models.ForeignKey(
         UserModel,
         on_delete=models.RESTRICT,
     )

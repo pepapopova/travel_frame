@@ -15,7 +15,7 @@ class TravelPhotoBaseForm(forms.ModelForm):
 class TravelPhotoPostForm(TravelPhotoBaseForm):
     class Meta:
         model = TravelPhoto
-        fields = "__all__"
+        exclude = ('date', 'user')
         labels = {
             'photo': 'Travel Photo',
         }
@@ -29,7 +29,7 @@ class TravelPhotoPostForm(TravelPhotoBaseForm):
 class TravelPhotoEditForm(TravelPhotoBaseForm):
     class Meta:
         model = TravelPhoto
-        exclude = ('photo', 'date', 'tagged_user')
+        exclude = ('photo', 'date', 'user')
 
 
 class TravelPhotoDeleteForm(TravelPhotoBaseForm):

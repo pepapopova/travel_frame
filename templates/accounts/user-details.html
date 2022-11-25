@@ -24,19 +24,19 @@
                             <img class="bin-img" src="{% static 'icon-remove-22.jpg' %}" alt="bin button">
                         </a>
                     {% endif %}
-{#                </div>#}
-{#                <div class="data">#}
-{#                    <span>{{ photos_count }}</span>#}
-{#                    <p>photos</p>#}
-{##}
-{#                    <!-- Total Number of Pets owned by the User -->#}
+                </div>
+                <div class="data">
+                    <span>{{ travel_photos_count }}</span>
+                    <p>Travel posts</p>
+
+{#                    <!-- Total Number of Counties visited by the user -->#}
 {#                    <span>{{ pets_count }}</span>#}
 {#                    <p>pets</p>#}
-{##}
+
 {#                    <!-- Total Number of Likes for the User -->#}
 {#                    <span>{{ likes_count }}</span>#}
 {#                    <p>likes</p>#}
-{#                </div>#}
+                </div>
                 {% if object.get_full_name %}
                     <h3 class="names">{{ object.get_full_name }}</h3>
                 {% endif %}
@@ -49,28 +49,24 @@
                 {% endif %}
             </div>
         </div>
-        {% if travel_photos %}
-        {% for photo in travel_photos %}
-            {{ photo.photo }}
-        {% endfor %}
-        {% endif %}
-{#        <div class="pets">#}
-{#            <div class="statuses">#}
-{#                {% for pet in object.pet_set.all %}#}
-{#                    <a href="{% url 'details pet' pet_slug=pet.slug username=object.username %}">#}
-{#                        <div class="head-pet">#}
-{#                            <div class="status">#}
-{#                                <div class="image">#}
-{#                                    <img src="{{ pet.personal_photo }}"#}
-{#                                         alt="image of {{ pet.name }}">#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <p>{{ pet.name }}</p>#}
-{#                        </div>#}
-{#                    </a>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        </div>#}
+
+        <div class="pets">
+            <div class="statuses">
+                {% for photo in object.travel_photo_set.all %}
+                    <a href="{% url 'tra' pet_slug=pet.slug username=object.username %}">
+                        <div class="head-pet">
+                            <div class="status">
+                                <div class="image">
+                                    <img src="{{ pet.personal_photo }}"
+                                         alt="image of {{ pet.name }}">
+                                </div>
+                            </div>
+                            <p>{{ pet.name }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
 {##}
 {#        <!-- Start Last Uploaded Photos Section -->#}
 {#        <div class="pet-photos">#}

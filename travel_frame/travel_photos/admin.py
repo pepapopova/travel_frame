@@ -5,7 +5,7 @@ from travel_frame.travel_photos.models import TravelPhoto
 
 @admin.register(TravelPhoto)
 class TravelPhotoAdmin(admin.ModelAdmin):
-    list_display = ('location', 'date', 'tagged_user')
+    list_display = ('location', 'date', 'user')
 
     @staticmethod
     def tagged_users(obj):

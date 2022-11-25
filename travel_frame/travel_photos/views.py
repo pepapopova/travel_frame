@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 
 from travel_frame.travel_photos.forms import TravelPhotoPostForm, TravelPhotoEditForm, TravelPhotoDeleteForm
 from travel_frame.travel_photos.models import TravelPhoto
+from travel_frame.travel_photos.utils import get_travel_photo_by_pk_and_username
 
 
 @login_required
@@ -13,12 +14,11 @@ def post_travel_photo(request):
     else:
         form = TravelPhotoPostForm(request.POST, request.FILES)
         if form.is_valid():
-            photo = form.save(commit=False)
-            photo.user = request.user
-            photo.save()
-            form.save_m2m()
+            travel_photo = form.save(commit=False)
+            travel_photo.user = request.user
+            travel_photo.save()
 
-            return redirect('home page')
+            return redirect('details user', pk=request.user.pk)
 
     context = {
         'form': form,
@@ -31,8 +31,21 @@ def post_travel_photo(request):
     )
 
 
+def details_travel_photo(request, username, pk):
+    travel_photo = get_travel_photo_by_pk_and_username(pk=pk, username=username)
+
+    user_liked_photo = TravelPhoto.objects.filter(pk=pk, user_id=request.user.pk)
+
+    context = {
+        'travel_photo': travel_photo,
+        'photo_is_liked_by_user': user_liked_photo,
+        'likes_count': travel_photo.travelphotolike_set.count()
+    }
+
+    return
+
 def edit_travel_photo(request, username, photo_id):
-    travel_photo = TravelPhoto.objects.filter(username=username, photo_id=photo_id).get()
+    travel_photo = get_travel_photo_by_pk_and_username(photo_id, username)
 
     if request.method == 'GET':
         form = TravelPhotoEditForm(instance=travel_photo)

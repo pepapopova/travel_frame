@@ -33,6 +33,7 @@ class UserDetailsView(generic.DetailView):
 
         context['is_owner'] = self.request.user == self.object
         context['travel_photos'] = self.object.travelphoto_set.all()
+        context['travel_photos_count'] = self.object.travelphoto_set.count()
         context['saved_photos'] = self.object.travelphotosave_set.all()
 
         return context
