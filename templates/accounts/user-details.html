@@ -23,6 +23,11 @@
                         <a href="{% url 'delete user' pk=object.pk %}">
                             <img class="bin-img" src="{% static 'icon-remove-22.jpg' %}" alt="bin button">
                         </a>
+
+                        <a href="{% url 'user favourites' pk=object.pk %}">
+                            <img class="edit-img" src="{% static 'favourites-button.png' %}" alt="favourites button">
+                        </a>
+
                     {% endif %}
                 </div>
                 <div class="data">
@@ -39,11 +44,11 @@
                     <span>{{ likes_count }}</span>
                     <p>likes</p>
 
-                <!-- Total Number of Counties visited by the user -->
-                <div class="data">
-                    <p>Countries visited by the user:</p>
-                    <span>{{ visited_countries }}</span>
-                </div>
+                    <!-- Total Number of Counties visited by the user -->
+                    <div class="data">
+                        <p>Countries visited by the user:</p>
+                        <span>{{ visited_countries }}</span>
+                    </div>
 
                 </div>
                 {% if object.get_full_name %}
@@ -59,38 +64,24 @@
             </div>
         </div>
 
-        <div class="pets">
-            <div class="statuses">
-                {% for photo in object.travel_photo_set.all %}
-                    <a href="{% url 'tra' pet_slug=pet.slug username=object.username %}">
-                        <div class="head-pet">
-                            <div class="status">
-                                <div class="image">
-                                    <img src="{{ pet.personal_photo }}"
-                                         alt="image of {{ pet.name }}">
-                                </div>
-                            </div>
-                            <p>{{ pet.name }}</p>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-
         <!-- Start Last Uploaded Photos Section -->
-        <div class="pet-photos">
+        {% if travel_photos %}
+            <div class="pet-photos">
             {% for photo in travel_photos %}
                 <img src="/media/{{ photo.photo }}" alt="travel_photo">
             {% endfor %}
-{#            <!-- Link to Last Uploaded Pet Photo -->#}
-{#            <a href="#">#}
-{#                <!-- Pet Photo -->#}
-{#                <img src="https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178.jpg?w=636&h=631"#}
-{#                     alt="pet img">#}
-{#            </a>#}
+            {#            <!-- Link to Last Uploaded Pet Photo -->#}
+            {#            <a href="#">#}
+            {#                <!-- Pet Photo -->#}
+            {#                <img src="https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178.jpg?w=636&h=631"#}
+            {#                     alt="pet img">#}
+            {#            </a>#}
+        {% else %}
+            <img src="{% static 'no-travel-photos.png' %}" alt="no-profile-pic">
+        {% endif %}
 
-
+        </div>
+        <!-- End Profile Details Section -->
     </div>
-    <!-- End Profile Details Section -->
 
 {% endblock %}

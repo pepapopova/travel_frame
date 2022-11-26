@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
+from travel_frame.accounts.views import RegisterTravelView
 from travel_frame.common.models import TravelPhotoLike, TravelPhotoSave
 from travel_frame.travel_photos.models import TravelPhoto
 from django.contrib.auth.decorators import login_required
@@ -50,7 +51,8 @@ def index(request):
         "travel_photos": travel_photos,
         "user": UserModel,
         'comment_form': TravelPhotoComment,
-        'search_form': search_form
+        'search_form': search_form,
+        'register_form': RegisterTravelView
     }
 
     return render(request, 'common/index.html', context)
@@ -74,7 +76,7 @@ def like_travel_photo(request, photo_id):
 
 @login_required
 def comment_travel_photo(request, photo_id):
-    photo = TravelPhoto.objects.filter(pk=photo_id) \
+    photo = TravelPhoto.objects.filter(photo_id=photo_id) \
         .get()
 
     form = TravelPhotoComment(request.POST)

@@ -12,6 +12,7 @@ class TravelPhotoBaseForm(forms.ModelForm):
             'photo': 'Travel Photo',
         }
 
+
 class TravelPhotoPostForm(TravelPhotoBaseForm):
     class Meta:
         model = TravelPhoto
@@ -22,7 +23,7 @@ class TravelPhotoPostForm(TravelPhotoBaseForm):
         widgets = {
             'description': forms.Textarea(
                 attrs={
-                    'placeholder': 'What did you memorize about that place?'
+                    'placeholder': 'Tell us more about this place?'
                 })}
 
 
