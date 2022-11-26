@@ -4,31 +4,31 @@
     <div class="top">
         <div class="userDetails">
             <!-- Link to User Profile Page -->
-{#            <a href="{% url 'details user' pk=user.pk %}">#}
-                <div class="profilepic">
-                    <div class="profile_img">
-                        <div class="image">
-                            {% if not user.profile_pic %}
-                                <img src="{% static 'person.png' %}" alt="img8">
-                            {% else %}
-                                <img src="/media/{{ object.profile_pic }}" alt="profile-pic">
-                            {% endif %}
-                        </div>
+            {#            <a href="{% url 'details user' pk=user.pk %}">#}
+            <div class="profilepic">
+                <div class="profile_img">
+                    <div class="image">
+                        {% if not user.profile_pic %}
+                            <img src="{% static 'person.png' %}" alt="img8">
+                        {% else %}
+                            <img src="/media/{{ object.profile_pic }}" alt="profile-pic">
+                        {% endif %}
                     </div>
                 </div>
-{#            </a>#}
+            </div>
+            {#            </a>#}
             <h3>
                 <!-- Link to User Profile Page -->
-{#                <a href="{% url 'details user' pk=user.pk %}">#}
-                    {% if user.full_name %}
+                {#                <a href="{% url 'details user' pk=user.pk %}">#}
+                {% if user.full_name %}
                     <!-- if user has first name and last name -->
                     {{ user.full_name }}
                     <!-- else -->
                     <!-- show user username -->
-                    {% else %}
+                {% else %}
                     {{ user.username }}
-                    {% endif %}
-{#                </a>#}
+                {% endif %}
+                {#                </a>#}
                 <br>
                 {% if photo.location %}
                     <span>{{ photo.location }}</span>
@@ -92,39 +92,39 @@
         <p class="likes">{{ photo.likes_count }} likes</p>
 
         <!-- Link to Photo Details Page -->
-{#        <a href="{% url 'delete travel photo' username=username photo_id=photo.pk %}">#}
-{#            <h4 class="details">See details</h4>#}
-{#        </a>#}
+        {#        <a href="{% url 'delete travel photo' username=username photo_id=photo.pk %}">#}
+        {#            <h4 class="details">See details</h4>#}
+        {#        </a>#}
 
         <!-- Date of Publication -->
         <h5 class="postTime">{{ photo.date }}</h5>
 
-{#        {% for comment in photo.photocomment_set.all %}#}
-{#            <div class="comments">#}
-{#                <div class="top">#}
-{#                    <div class="userDetails">#}
-{#                        <div class="comment-data">#}
-{#                            <div class="profilepic">#}
-{#                                <div class="profile_img">#}
-{#                                    <div class="image">#}
-{#                                        <img src="{% static 'images/person.png' %}" alt="img8">#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <p>#}
-{#                                 TODO: fix with auth#}
-{#                                <a href="">Steven Ivanov</a>#}
-{#                                <!-- User Comment -->#}
-{#                                {{ comment.text }}#}
-{##}
-{#                            </p>#}
-{#                        </div>#}
-{#                        <span>{{ comment.publication_date }}</span>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <!-- End Comments Section -->#}
-{#        {% endfor %}#}
+        {#        {% for comment in photo.photocomment_set.all %}#}
+        {#            <div class="comments">#}
+        {#                <div class="top">#}
+        {#                    <div class="userDetails">#}
+        {#                        <div class="comment-data">#}
+        {#                            <div class="profilepic">#}
+        {#                                <div class="profile_img">#}
+        {#                                    <div class="image">#}
+        {#                                        <img src="{% static 'images/person.png' %}" alt="img8">#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {#                            <p>#}
+        {#                                 TODO: fix with auth#}
+        {#                                <a href="">Steven Ivanov</a>#}
+        {#                                <!-- User Comment -->#}
+        {#                                {{ comment.text }}#}
+        {##}
+        {#                            </p>#}
+        {#                        </div>#}
+        {#                        <span>{{ comment.publication_date }}</span>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <!-- End Comments Section -->#}
+        {#        {% endfor %}#}
 
 
         <div class="addComments">
@@ -133,11 +133,11 @@
                     <i class="far fa-smile"></i>
                 </h3>
             </div>
-                <form method="post" action="{% url 'comment travel photo' photo_id=photo.pk %}">
-                    {{ comment_form }}
-                    <button type="submit">Post</button>
-                    {% csrf_token %}
-                </form>
+            <form method="post" action="{% url 'comment travel photo' photo_id=photo.pk %}">
+                {{ comment_form }}
+                <button type="submit">Post</button>
+                {% csrf_token %}
+            </form>
             </form>
         </div>
     </div>

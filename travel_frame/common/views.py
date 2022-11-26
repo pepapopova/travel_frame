@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.shortcuts import render, redirect
 
 from travel_frame.common.models import TravelPhotoLike, TravelPhotoSave
@@ -23,26 +24,35 @@ def apply_user_liked_photo(request, photo):
     return photo
 
 
+def apply_user_saved_photo(request, photo):
+    photo.is_saved_by_user = photo.travelphotosave_set.filter(user_id=request.user.pk)
+    return photo
+
+
 def index(request):
     travel_photos = TravelPhoto.objects.all()
+
+    search_form = SearchTravelPhotosForm(request.GET)
+    searched_user = None
+    if search_form.is_valid():
+        searched_user = search_form.cleaned_data['username']
+
+    if searched_user:
+        travel_photos = travel_photos.filter(Q(user__username__icontains=searched_user) |
+                                             Q(user__first_name__icontains=searched_user) |
+                                             Q(user__last_name__icontains=searched_user))
+
     travel_photos = [apply_likes_count(travel_photo) for travel_photo in travel_photos]
     travel_photos = [apply_user_liked_photo(request, travel_photo) for travel_photo in travel_photos]
-
-    # search_form = SearchTravelPhotosForm(request.GET)
-    # searched_user = None
-    # if search_form.is_valid():
-    #     searched_user = search_form.cleaned_data['pet_name']
-    #
-    # travel_photos = TravelPhoto.objects.all()
-    #
-    # if searched_user:
-    #     travel_photos = travel_photos.filter(tagged_user__name__icontains=searched_user)
+    travel_photos = [apply_user_saved_photo(request, travel_photo) for travel_photo in travel_photos]
 
     context = {
         "travel_photos": travel_photos,
         "user": UserModel,
         'comment_form': TravelPhotoComment,
+        'search_form': search_form
     }
+
     return render(request, 'common/index.html', context)
 
 
@@ -61,6 +71,7 @@ def like_travel_photo(request, photo_id):
 
     return redirect(get_photo_url(request, photo_id))
 
+
 @login_required
 def comment_travel_photo(request, photo_id):
     photo = TravelPhoto.objects.filter(pk=photo_id) \
@@ -78,16 +89,17 @@ def comment_travel_photo(request, photo_id):
 
 @login_required
 def save_travel_photo(request, photo_id):
-    user_saved_photo = TravelPhotoLike.objects \
-        .filter(photo_id=photo_id)
+    user_saved_photos = TravelPhotoSave.objects \
+        .filter(saved_photos_id=photo_id, user_id=request.user.pk)
 
-    if request.user != user_saved_photo.user and user_saved_photo:
+    if user_saved_photos:
+        user_saved_photos.delete()
+    else:
         TravelPhotoSave.objects.create(
-            photo_id=photo_id,
+            saved_photos_id=photo_id,
             user_id=request.user.pk,
         )
-    else:
-        user_saved_photo.delete()
 
     return redirect(get_photo_url(request, photo_id))
+
 

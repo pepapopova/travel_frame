@@ -31,14 +31,23 @@ class UserDetailsView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+
         context['is_owner'] = self.request.user == self.object
         context['travel_photos'] = self.object.travelphoto_set.all()
         context['travel_photos_count'] = self.object.travelphoto_set.count()
         context['saved_photos'] = self.object.travelphotosave_set.all()
+        context['likes_count'] = self.object.travelphoto_set.count()
+        context['favourites_count'] = self.object.travelphotosave_set.count()
+        context['visited_countries'] = self.calculate_visited_countries(context['travel_photos'])
 
         return context
 
-
+    @staticmethod
+    def calculate_visited_countries(travel_photos):
+        locations = set()
+        for photo in travel_photos:
+            locations.add(photo.location)
+            return len(locations)
 class UserEditView(generic.UpdateView):
     template_name = 'accounts/user-edit.html'
     model = UserModel

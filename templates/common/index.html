@@ -9,14 +9,14 @@
             {% else %}
 
                 <!-- Start Searchbar Form -->
-                {#            <form class="searchbar" method="get" action="{% url 'index' %}">#}
-                {#                {{ search_form }}#}
-                {#                <button>#}
-                {#                    <img src="{% static 'search.png' %}" height="18" alt="img2">#}
-                {#                </button>#}
-                {#                {% csrf_token %}#}
-                {#            </form>#}
-                {#            <!-- End Searchbar Form -->#}
+                            <form class="searchbar" method="get" action="{% url 'home page' %}">
+                                {{ search_form }}
+                                <button>
+                                    <img src="{% static 'search.png' %}" height="18" alt="img2">
+                                </button>
+                                {% csrf_token %}
+                            </form>
+                            <!-- End Searchbar Form -->
 
                 <!-- Start Pet Photos Post Section -->
                 {% for photo in travel_photos %}
@@ -24,33 +24,36 @@
                     <div class="top">
                         <div class="userDetails">
                             <!-- Link to User Profile Page -->
-                            {#            <a href="{% url 'details user' pk=user.pk %}">#}
+                            <a href="{% url 'details user' pk=photo.user_id %}">
                             <div class="profilepic">
                                 <div class="profile_img">
                                     <div class="image">
-                                        {% if not user.profile_pic %}
+                                        {% if not photo.user.profile_pic %}
                                             <img src="{% static 'person.png' %}" alt="img8">
                                         {% else %}
-                                            <img src="/media/{{ object.profile_pic }}" alt="profile-pic">
+                                            <img src="/media/{{ photo.user.profile_pic }}" alt="profile-pic">
                                         {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            {#            </a>#}
+                                        </a>
+
                             <h3>
                                 <!-- Link to User Profile Page -->
-                                {#                <a href="{% url 'details user' pk=user.pk %}">#}
-                                {% if user.full_name %}
+                                <a href="{% url 'details user' pk=photo.user_id %}">
+                                {% if photo.user.get_full_name %}
                                     <!-- if user has first name and last name -->
-                                    {{ user.full_name }}
+                                    {{ photo.user.get_full_name }}
                                     <!-- else -->
                                     <!-- show user username -->
                                 {% else %}
-                                    {{ user.username }}
+                                    {{ photo.user.username }}
                                 {% endif %}
-                                {#                </a>#}
+                                </a>
                                 <br>
-                                {% if photo.location %}
+                                {% if photo.city %}
+                                    <span>{{ photo.city }}, {{ photo.location }}</span>
+                                    {% else %}
                                     <span>{{ photo.location }}</span>
                                 {% endif %}
                             </h3>
@@ -66,7 +69,7 @@
                             <div class="left">
                 <span class="heart">
                     <a href="{% url 'like travel photo' photo_id=photo.pk %}">
-                        {% if photo.likes_count > 0 %}
+                        {% if photo.is_liked_by_user %}
                             <svg style="color: red"
                                  xmlns="http://www.w3.org/2000/svg"
                                  width="24"
@@ -105,6 +108,12 @@
                         </path>
                     </svg>
                         {% endif %}
+
+
+
+                    </a>
+                    <a href="{% url 'save travel photo' photo_id=photo.pk %}">
+                            <i>Add/remove favourites</i>
                     </a>
                 </span>
                             </div>
@@ -167,13 +176,3 @@
                 </div>
             {% endif %}
 {% endblock %}
-
-{#<ul>#}
-{#    <li>#}
-{#        {% for photo in travel_photos %}#}
-{#            <div class="imgBx" id="photo-{{ photo.pk }}">#}
-{#                <img src="media/{{ photo.photo }}" alt="post" class="cover">#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#    </li>#}
-{#</ul>#}

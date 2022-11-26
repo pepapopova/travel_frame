@@ -29,13 +29,22 @@
                     <span>{{ travel_photos_count }}</span>
                     <p>Travel posts</p>
 
-{#                    <!-- Total Number of Counties visited by the user -->#}
-{#                    <span>{{ pets_count }}</span>#}
-{#                    <p>pets</p>#}
 
-{#                    <!-- Total Number of Likes for the User -->#}
-{#                    <span>{{ likes_count }}</span>#}
-{#                    <p>likes</p>#}
+                    <!-- Total Number of Saved Images for the User -->
+                    <span>{{ favourites_count }}</span>
+                    <p>Favourites</p>
+
+
+                    <!-- Total Number of Likes for the User -->
+                    <span>{{ likes_count }}</span>
+                    <p>likes</p>
+
+                <!-- Total Number of Counties visited by the user -->
+                <div class="data">
+                    <p>Countries visited by the user:</p>
+                    <span>{{ visited_countries }}</span>
+                </div>
+
                 </div>
                 {% if object.get_full_name %}
                     <h3 class="names">{{ object.get_full_name }}</h3>
@@ -67,39 +76,21 @@
                 {% endfor %}
             </div>
         </div>
-{##}
-{#        <!-- Start Last Uploaded Photos Section -->#}
-{#        <div class="pet-photos">#}
-{##}
+
+        <!-- Start Last Uploaded Photos Section -->
+        <div class="pet-photos">
+            {% for photo in travel_photos %}
+                <img src="/media/{{ photo.photo }}" alt="travel_photo">
+            {% endfor %}
 {#            <!-- Link to Last Uploaded Pet Photo -->#}
 {#            <a href="#">#}
 {#                <!-- Pet Photo -->#}
 {#                <img src="https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178.jpg?w=636&h=631"#}
 {#                     alt="pet img">#}
 {#            </a>#}
-{##}
-{#            <!-- Link to Uploaded Pet Photo -->#}
-{#            <a href="#">#}
-{#                <!-- Pet Photo -->#}
-{#                <img src="https://cf.ltkcdn.net/small-pets/images/orig/278587-1600x1066-goldfish-swimming-in-fish-tank.jpg"#}
-{#                     alt="pet img">#}
-{#            </a>#}
-{##}
-{#            <!-- Link to Uploaded Pet Photo -->#}
-{#            <a href="#">#}
-{#                <!-- Pet Photo -->#}
-{#                <img src="https://thumbs.dreamstime.com/b/small-golden-retriever-puppy-6482030.jpg" alt="pet img">#}
-{#            </a>#}
-{##}
-{#            <!-- Link to  Uploaded Pet Photo -->#}
-{#            <a href="#">#}
-{#                <!-- Pet Photo -->#}
-{#                <img src="https://i.pinimg.com/originals/4e/55/83/4e5583748bc4000805df50e4ebcafffc.png" alt="pet img">#}
-{#            </a>#}
-{#        </div>#}
-{#        <!-- End Last Uploaded Photos Section -->#}
-{##}
-{#    </div>#}
-{#    <!-- End Profile Details Section -->#}
+
+
+    </div>
+    <!-- End Profile Details Section -->
 
 {% endblock %}
