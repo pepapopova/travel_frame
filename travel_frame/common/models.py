@@ -27,6 +27,8 @@ class TravelPhotoComment(models.Model):
     MAX_COMMENT_LENGTH = 200
     comment = models.CharField(
         max_length=MAX_COMMENT_LENGTH,
+        null=False,
+        blank=False,
     )
 
     date_and_time = models.DateTimeField(
@@ -42,6 +44,10 @@ class TravelPhotoComment(models.Model):
         blank=True,
     )
 
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.RESTRICT,
+    )
 
 class TravelPhotoSave(models.Model):
     class Meta:

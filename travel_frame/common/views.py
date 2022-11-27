@@ -3,10 +3,10 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 
 from travel_frame.accounts.views import RegisterTravelView
-from travel_frame.common.models import TravelPhotoLike, TravelPhotoSave
+from travel_frame.common.models import TravelPhotoLike, TravelPhotoSave, TravelPhotoComment
 from travel_frame.travel_photos.models import TravelPhoto
 from django.contrib.auth.decorators import login_required
-from travel_frame.common.forms import TravelPhotoComment, SearchTravelPhotosForm
+from travel_frame.common.forms import SearchTravelPhotosForm, PhotoCommentForm
 
 UserModel = get_user_model()
 
@@ -50,7 +50,7 @@ def index(request):
     context = {
         "travel_photos": travel_photos,
         "user": UserModel,
-        'comment_form': TravelPhotoComment,
+        'comment_form': PhotoCommentForm,
         'search_form': search_form,
         'register_form': RegisterTravelView
     }
@@ -76,17 +76,18 @@ def like_travel_photo(request, photo_id):
 
 @login_required
 def comment_travel_photo(request, photo_id):
-    photo = TravelPhoto.objects.filter(photo_id=photo_id) \
+    photo = TravelPhoto.objects.filter(pk=photo_id) \
         .get()
 
-    form = TravelPhotoComment(request.POST)
+    form = PhotoCommentForm(request.POST)
 
     if form.is_valid():
-        comment = form.save(commit=False)  # Does not persist to DB
-        comment.photo = photo
+        comment = form.save(commit=False)
+        comment.travel_photo = photo
+        comment.user_id = request.user.pk
         comment.save()
 
-    return redirect('index')
+    return redirect(get_photo_url(request, photo_id))
 
 
 @login_required

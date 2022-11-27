@@ -1,10 +1,10 @@
-from django.contrib.auth import views, get_user_model
+from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
 from travel_frame.accounts.forms import UserCreateForm
+from travel_frame.destinations.models import Country
 from travel_frame.travel_photos.models import TravelPhoto
 
 UserModel = get_user_model()
@@ -34,18 +34,24 @@ class UserDetailsView(generic.DetailView):
         context['is_owner'] = self.request.user == self.object
         context['travel_photos'] = self.object.travelphoto_set.all()
         context['travel_photos_count'] = self.object.travelphoto_set.count()
-        context['likes_count'] = self.object.travelphoto_set.count()
+
+        photos = self.object.travelphoto_set.prefetch_related('travelphotolike_set')
+
+        context['likes_count'] = sum(x.travelphotolike_set.count() for x in photos)
         context['favourites_count'] = self.object.travelphotosave_set.count()
-        context['visited_countries'] = self.calculate_visited_countries(context['travel_photos'])
+        context['visited_countries_count'] = self.visited_countries_count(context['travel_photos'])
+
+        visited_countries = set(Country.objects.filter(travelphoto__user_id=self.object.pk))
+        context['visited_countries'] = visited_countries
 
         return context
 
     @staticmethod
-    def calculate_visited_countries(travel_photos):
+    def visited_countries_count(travel_photos):
         locations = set()
         for photo in travel_photos:
             locations.add(photo.location)
-            return len(locations)
+        return len(locations)
 
 
 class UserEditView(generic.UpdateView):
@@ -75,7 +81,7 @@ class UserFavoritesView(generic.DetailView):
         context['travel_photos_count'] = self.object.travelphoto_set.count()
         context['travel_photos'] = TravelPhoto.objects.all()
         context['likes_count'] = self.object.travelphoto_set.count()
-        context['favourite_photos'] = self.object.travelphotosave_set.all()
+        context['saved_photos'] = TravelPhoto.objects.filter(travelphotosave__user_id=self.object.pk)
         context['favourites_count'] = self.object.travelphotosave_set.count()
 
         return context

@@ -42,14 +42,13 @@
 
                     <!-- Total Number of Likes for the User -->
                     <span>{{ likes_count }}</span>
-                    <p>likes</p>
+                    <p>Likes</p>
 
-                    <!-- Total Number of Counties visited by the user -->
-                    <div class="data">
-                        <p>Countries visited by the user:</p>
-                        <span>{{ visited_countries }}</span>
-                    </div>
-
+{#                    <div class="profile_img">#}
+{#                        {% for country in visited_countries %}#}
+{#                            <img src="/media/{{ country.flag }}" alt="country-flag">#}
+{#                        {% endfor %}#}
+{#                    </div>#}
                 </div>
                 {% if object.get_full_name %}
                     <h3 class="names">{{ object.get_full_name }}</h3>
@@ -61,9 +60,30 @@
                 {% if object.gender %}
                     <p class="gender">{{ object.gender }}</p>
                 {% endif %}
+                <!-- Total Number of Counties visited by the user -->
+                <div class="data">
+                    <p>Countries visited by the user:</p>
+                    <span>{{ visited_countries_count }}</span>
+                </div>
             </div>
         </div>
 
+        <div class="pets">
+            <div class="statuses">
+                {% for country in visited_countries %}
+                        <div class="head-pet">
+                            <div class="status">
+                                <div class="image">
+                                    <img src="/media/{{ country.flag }}"
+                                         alt="image of {{ country.name }}">
+                                </div>
+                            </div>
+                            <p>{{ country.name }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
         <!-- Start Last Uploaded Photos Section -->
         {% if travel_photos %}
             <div class="pet-photos">
