@@ -42,7 +42,8 @@ def details_travel_photo(request, username, pk):
         'likes_count': travel_photo.travelphotolike_set.count()
     }
 
-    return
+    return render(request, 'travel_photos/details-travel-photo.html', context)
+
 
 def edit_travel_photo(request, username, photo_id):
     travel_photo = get_travel_photo_by_pk_and_username(photo_id, username)
