@@ -131,9 +131,9 @@
                         <p class="likes">{{ photo.likes_count }} likes</p>
 
                         <!-- Link to Photo Details Page -->
-                        {#        <a href="{% url 'delete travel photo' username=username photo_id=photo.pk %}">#}
-                        {#            <h4 class="details">See details</h4>#}
-                        {#        </a>#}
+                                <a href="{% url 'details travel photo' pk=photo.pk %}">
+                                    <h4 class="details">See details</h4>
+                                </a>
 
                         <!-- Date of Publication -->
                         <h5 class="postTime">{{ photo.date }}</h5>

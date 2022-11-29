@@ -36,8 +36,8 @@ class UserDetailsView(generic.DetailView):
         context['travel_photos_count'] = self.object.travelphoto_set.count()
 
         photos = self.object.travelphoto_set.prefetch_related('travelphotolike_set')
-
         context['likes_count'] = sum(x.travelphotolike_set.count() for x in photos)
+
         context['favourites_count'] = self.object.travelphotosave_set.count()
         context['visited_countries_count'] = self.visited_countries_count(context['travel_photos'])
 

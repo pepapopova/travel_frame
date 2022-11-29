@@ -1,10 +1,14 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from travel_frame.common.models import TravelPhotoLike
+from travel_frame.common.views import apply_likes_count
 from travel_frame.travel_photos.forms import TravelPhotoPostForm, TravelPhotoEditForm, TravelPhotoDeleteForm
 from travel_frame.travel_photos.models import TravelPhoto
 from travel_frame.travel_photos.utils import get_travel_photo_by_pk_and_username
 
+UserModel = get_user_model()
 
 @login_required
 def post_travel_photo(request):
@@ -31,22 +35,23 @@ def post_travel_photo(request):
     )
 
 
-def details_travel_photo(request, username, pk):
-    travel_photo = get_travel_photo_by_pk_and_username(pk=pk, username=username)
+def details_travel_photo(request, pk):
+    travel_photo = TravelPhoto.objects.filter(pk=pk).get()
 
-    user_liked_photo = TravelPhoto.objects.filter(pk=pk, user_id=request.user.pk)
+    user_liked_photo = TravelPhotoLike.objects.filter(travel_photo_id=pk, user_id=request.user.pk)
 
     context = {
-        'travel_photo': travel_photo,
+        'photo': travel_photo,
         'photo_is_liked_by_user': user_liked_photo,
-        'likes_count': travel_photo.travelphotolike_set.count()
+        'likes_count': travel_photo.travelphotolike_set.count(),
+        'is_owner': request.user == travel_photo.user,
     }
 
     return render(request, 'travel_photos/details-travel-photo.html', context)
 
 
-def edit_travel_photo(request, username, photo_id):
-    travel_photo = get_travel_photo_by_pk_and_username(photo_id, username)
+def edit_travel_photo(request, pk):
+    travel_photo = TravelPhoto.objects.filter(pk=pk).get()
 
     if request.method == 'GET':
         form = TravelPhotoEditForm(instance=travel_photo)
@@ -54,12 +59,12 @@ def edit_travel_photo(request, username, photo_id):
         form = TravelPhotoEditForm(request.POST, request.FILES, instance=travel_photo)
         if form.is_valid():
             form.save()
-            return redirect('details user', username=username)
+            return redirect('details user', pk=request.user.pk)
 
     context = {
         'form': form,
-        'photo_id': photo_id,
-        'username': username
+        'photo_id': pk,
+        'username': request.user.username
     }
 
     return render(
@@ -69,8 +74,8 @@ def edit_travel_photo(request, username, photo_id):
     )
 
 
-def delete_travel_photo(request, username, photo_id):
-    travel_photo = TravelPhoto.objects.filter(username=username, photo_id=photo_id).get()
+def delete_travel_photo(request, pk):
+    travel_photo = TravelPhoto.objects.filter(pk=pk).get()
 
     if request.method == 'GET':
         form = TravelPhotoDeleteForm(instance=travel_photo)
@@ -78,12 +83,12 @@ def delete_travel_photo(request, username, photo_id):
         form = TravelPhotoDeleteForm(request.POST, request.FILES, instance=travel_photo)
         if form.is_valid():
             form.save()
-            return redirect('details user', username=username)
+            return redirect('details user', pk=request.user.pk)
 
     context = {
         'form': form,
-        'photo_id': photo_id,
-        'username': username
+        'photo_id': pk,
+        'username': request.user.username
     }
 
     return render(
