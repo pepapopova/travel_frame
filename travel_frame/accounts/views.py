@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -24,9 +27,10 @@ class LogoutTravelView(LogoutView):
     next_page = reverse_lazy('home page')
 
 
-class UserDetailsView(generic.DetailView):
+class UserDetailsView(LoginRequiredMixin, generic.DetailView):
     template_name = 'accounts/user-details.html'
     model = UserModel
+    login_url = reverse_lazy('login user')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -39,10 +43,10 @@ class UserDetailsView(generic.DetailView):
         context['likes_count'] = sum(x.travelphotolike_set.count() for x in photos)
 
         context['favourites_count'] = self.object.travelphotosave_set.count()
-        context['visited_countries_count'] = self.visited_countries_count(context['travel_photos'])
 
         visited_countries = set(Country.objects.filter(travelphoto__user_id=self.object.pk))
         context['visited_countries'] = visited_countries
+        context['visited_countries_count'] = len(visited_countries)
 
         return context
 
@@ -54,26 +58,35 @@ class UserDetailsView(generic.DetailView):
         return len(locations)
 
 
-class UserEditView(generic.UpdateView):
+class UserEditView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'accounts/user-edit.html'
     model = UserModel
     fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'profile_pic')
+    login_url = reverse_lazy('login user')
 
     def get_success_url(self):
         return reverse_lazy('details user', kwargs={
              'pk': self.request.user.pk
         })
 
+    # def get_queryset(self, *args, **kwargs):
+    #     result = super().get_queryset(*args, **kwargs)
+    #     if not result:
+    #         return redirect('home page')
+    #     return result
 
-class UserDeleteView(generic.DeleteView):
+
+class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = 'accounts/user-delete.html'
     model = UserModel
     success_url = reverse_lazy('home page')
+    login_url = reverse_lazy('login user')
 
 
-class UserFavoritesView(generic.DetailView):
+class UserFavoritesView(LoginRequiredMixin, generic.DetailView):
     template_name = 'accounts/user-favorites.html'
     model = UserModel
+    login_url = reverse_lazy('login user')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

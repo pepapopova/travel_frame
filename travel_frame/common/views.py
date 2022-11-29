@@ -1,33 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import render, redirect
-
 from travel_frame.accounts.views import RegisterTravelView
 from travel_frame.common.models import TravelPhotoLike, TravelPhotoSave, TravelPhotoComment
+from travel_frame.core.utils import apply_likes_count, apply_user_liked_photo, apply_user_saved_photo, get_photo_url
 from travel_frame.travel_photos.models import TravelPhoto
 from django.contrib.auth.decorators import login_required
 from travel_frame.common.forms import SearchTravelPhotosForm, PhotoCommentForm
 
 UserModel = get_user_model()
-
-
-def get_photo_url(request, photo_id):
-    return request.META['HTTP_REFERER'] + f'#photo-{photo_id}'
-
-
-def apply_likes_count(photo):
-    photo.likes_count = photo.travelphotolike_set.count()
-    return photo
-
-
-def apply_user_liked_photo(request, photo):
-    photo.is_liked_by_user = photo.travelphotolike_set.filter(user_id=request.user.pk)
-    return photo
-
-
-def apply_user_saved_photo(request, photo):
-    photo.is_saved_by_user = photo.travelphotosave_set.filter(user_id=request.user.pk)
-    return photo
 
 
 def index(request):

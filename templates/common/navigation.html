@@ -20,11 +20,11 @@
                         <i>Post Travel Photo</i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="">
-                        <i>Add Food</i>
-                    </a>
-                </li>
+{#                <li class="nav-item">#}
+{#                    <a href="">#}
+{#                        <i>Add Food</i>#}
+{#                    </a>#}
+{#                    </li>#}
 
                     <li class="nav-item">
                         <a href="{% url 'details user' pk=request.user.pk %}">
@@ -44,7 +44,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'login user' %}">
-                            <i>Sign in</i>
+                            <i>Login</i>
                         </a>
                     </li>
                 {% endif %}

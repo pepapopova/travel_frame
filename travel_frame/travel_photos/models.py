@@ -46,3 +46,6 @@ class TravelPhoto(models.Model):
 
     def __str__(self):
         return f'{self.location} {self.date} {self.description}'
+
+    class Meta:
+        ordering = ('date',)

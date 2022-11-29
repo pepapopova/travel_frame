@@ -3,12 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from travel_frame.common.models import TravelPhotoLike
-from travel_frame.common.views import apply_likes_count
+from travel_frame.core.utils import is_owner
 from travel_frame.travel_photos.forms import TravelPhotoPostForm, TravelPhotoEditForm, TravelPhotoDeleteForm
 from travel_frame.travel_photos.models import TravelPhoto
-from travel_frame.travel_photos.utils import get_travel_photo_by_pk_and_username
 
 UserModel = get_user_model()
+
 
 @login_required
 def post_travel_photo(request):
@@ -35,6 +35,7 @@ def post_travel_photo(request):
     )
 
 
+@login_required
 def details_travel_photo(request, pk):
     travel_photo = TravelPhoto.objects.filter(pk=pk).get()
 
@@ -50,8 +51,12 @@ def details_travel_photo(request, pk):
     return render(request, 'travel_photos/details-travel-photo.html', context)
 
 
+@login_required
 def edit_travel_photo(request, pk):
     travel_photo = TravelPhoto.objects.filter(pk=pk).get()
+
+    if not is_owner(request, travel_photo):
+        return redirect('details travel photo', pk=travel_photo.pk)
 
     if request.method == 'GET':
         form = TravelPhotoEditForm(instance=travel_photo)
@@ -74,8 +79,12 @@ def edit_travel_photo(request, pk):
     )
 
 
+@login_required
 def delete_travel_photo(request, pk):
     travel_photo = TravelPhoto.objects.filter(pk=pk).get()
+
+    if not is_owner(request, travel_photo):
+        return redirect('details travel photo', pk=travel_photo.pk)
 
     if request.method == 'GET':
         form = TravelPhotoDeleteForm(instance=travel_photo)
