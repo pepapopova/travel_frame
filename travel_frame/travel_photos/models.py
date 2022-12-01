@@ -48,4 +48,4 @@ class TravelPhoto(models.Model):
         return f'{self.location} {self.date} {self.description}'
 
     class Meta:
-        ordering = ('date',)
+        ordering = ('-date',)

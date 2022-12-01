@@ -7,6 +7,8 @@ UserModel = get_user_model()
 
 
 class TravelPhotoLike(models.Model):
+    class Meta:
+        verbose_name_plural = "Travel Photo Likes"
 
     travel_photo = models.ForeignKey(
         TravelPhoto,
@@ -24,6 +26,10 @@ class TravelPhotoLike(models.Model):
 
 
 class TravelPhotoComment(models.Model):
+    class Meta:
+        verbose_name_plural = "Travel Photo Comments"
+        ordering = ('-date_and_time',)
+
     MAX_COMMENT_LENGTH = 200
     comment = models.CharField(
         max_length=MAX_COMMENT_LENGTH,
@@ -49,9 +55,10 @@ class TravelPhotoComment(models.Model):
         on_delete=models.RESTRICT,
     )
 
+
 class TravelPhotoSave(models.Model):
     class Meta:
-        verbose_name_plural = "Travel Photos Save"
+        verbose_name_plural = "Saved Travel Photos"
 
     saved_photos = models.ForeignKey(
         TravelPhoto,
@@ -66,4 +73,3 @@ class TravelPhotoSave(models.Model):
         null=False,
         blank=True
     )
-

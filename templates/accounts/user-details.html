@@ -80,16 +80,14 @@
             </div>
         </div>
 
-        {% if travel_photos %}
             <div class="pet-photos">
             {% for photo in travel_photos %}
                 <a href="{% url 'details travel photo' pk=photo.pk %}">
                     <img src="/media/{{ photo.photo }}" alt="travel_photo">
                 </a>
-            {% endfor %}
-        {% else %}
+            {% empty %}
             <img src="{% static 'no-travel-photos.png' %}" alt="no-profile-pic">
-        {% endif %}
+            {% endfor %}
 
         </div>
     </div>

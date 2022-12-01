@@ -12,12 +12,16 @@ UserModel = get_user_model()
 
 
 def index(request):
+
+    if not request.user.is_authenticated:
+        return render(request, 'accounts/user-login.html')
+
     travel_photos = TravelPhoto.objects.all()
 
-    search_form = SearchTravelPhotosForm(request.GET)
+    search_form = SearchTravelPhotosForm(request.POST)
     searched_user = None
     if search_form.is_valid():
-        searched_user = search_form.cleaned_data['username']
+        searched_user = search_form.cleaned_data['searched_profile']
 
     if searched_user:
         travel_photos = travel_photos.filter(Q(user__username__icontains=searched_user) |

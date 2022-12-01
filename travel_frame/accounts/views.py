@@ -69,11 +69,21 @@ class UserEditView(LoginRequiredMixin, generic.UpdateView):
              'pk': self.request.user.pk
         })
 
-    # def get_queryset(self, *args, **kwargs):
-    #     result = super().get_queryset(*args, **kwargs)
-    #     if not result:
+    # def get_object(self, queryset=None):
+    #     if self.request.user == self.object.user:
+    #         return self.request.user
+    #     else:
     #         return redirect('home page')
-    #     return result
+
+    # def get(self, request, *args, **kwargs):
+    #     result = super().get(request, *args, **kwargs)
+    #     object = self.get_object()
+    #     if request.user == object:
+    #         return result
+    #     else:
+    #         return redirect('home page')
+
+
 
 
 class UserDeleteView(LoginRequiredMixin, generic.DeleteView):

@@ -5,15 +5,15 @@ from travel_frame.common.models import TravelPhotoComment, TravelPhotoSave, Trav
 
 @admin.register(TravelPhotoLike)
 class LikeTravelPhotoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'travel_photo')
 
 
 @admin.register(TravelPhotoComment)
 class CommentTravelPhotoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'comment', 'travel_photo')
 
 
 @admin.register(TravelPhotoSave)
 class SaveTravelPhotoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'saved_photos')
 

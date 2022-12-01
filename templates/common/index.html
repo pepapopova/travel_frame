@@ -17,7 +17,7 @@
             {% else %}
 
                 <!-- Start Searchbar Form -->
-                <form class="searchbar" method="get" action="{% url 'home page' %}">
+                <form class="searchbar" method="post" action="{% url 'home page' %}">
                                 {{ search_form }}
                                 <button>
                                     <img src="{% static 'search.png' %}" height="18" alt="img2">
