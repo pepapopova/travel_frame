@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from travel_frame.accounts.forms import UserCreateForm
+from travel_frame.accounts.mixins import OnlyOwnerAccessibleMixin
+from travel_frame.accounts.models import TravelUser
 from travel_frame.destinations.models import Country
 from travel_frame.travel_photos.models import TravelPhoto
 
@@ -22,6 +24,10 @@ class RegisterTravelView(generic.CreateView):
     form_class = UserCreateForm
     success_url = reverse_lazy('home page')
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return redirect('home page')
 
 class LogoutTravelView(LogoutView):
     next_page = reverse_lazy('home page')
@@ -58,7 +64,7 @@ class UserDetailsView(LoginRequiredMixin, generic.DetailView):
         return len(locations)
 
 
-class UserEditView(LoginRequiredMixin, generic.UpdateView):
+class UserEditView(OnlyOwnerAccessibleMixin, LoginRequiredMixin, generic.UpdateView):
     template_name = 'accounts/user-edit.html'
     model = UserModel
     fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'profile_pic')
@@ -69,31 +75,15 @@ class UserEditView(LoginRequiredMixin, generic.UpdateView):
              'pk': self.request.user.pk
         })
 
-    # def get_object(self, queryset=None):
-    #     if self.request.user == self.object.user:
-    #         return self.request.user
-    #     else:
-    #         return redirect('home page')
 
-    # def get(self, request, *args, **kwargs):
-    #     result = super().get(request, *args, **kwargs)
-    #     object = self.get_object()
-    #     if request.user == object:
-    #         return result
-    #     else:
-    #         return redirect('home page')
-
-
-
-
-class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
+class UserDeleteView(OnlyOwnerAccessibleMixin, LoginRequiredMixin, generic.DeleteView):
     template_name = 'accounts/user-delete.html'
     model = UserModel
     success_url = reverse_lazy('home page')
     login_url = reverse_lazy('login user')
 
 
-class UserFavoritesView(LoginRequiredMixin, generic.DetailView):
+class UserFavoritesView(OnlyOwnerAccessibleMixin, LoginRequiredMixin, generic.DetailView):
     template_name = 'accounts/user-favorites.html'
     model = UserModel
     login_url = reverse_lazy('login user')

@@ -4,18 +4,18 @@
 {% block content %}
     <div class="container">
         <div class="col-9">
-            {% if not request.user.is_authenticated %}
-                <form method="post" action="{% url 'register user' %}">
-                    {{ form }}
+{#            {% if not request.user.is_authenticated %}#}
+{#                <form method="post" action="{% url 'register user' %}">#}
+{#                    {{ form }}#}
 {#                {{ form.email}}#}
 {#                {{ form.password1|placeholder:'Password: ' }}#}
 {#                {{ form.password2|placeholder:'Repeat password: ' }}}}#}
-                <button type="submit">Register</button>
-                {% csrf_token %}
-                </form>
-
-            {% else %}
-
+{#                <button type="submit">Register</button>#}
+{#                {% csrf_token %}#}
+{#                </form>#}
+{##}
+{#            {% else %}#}
+                {% if request.user.is_authenticated %}
                 <!-- Start Searchbar Form -->
                 <form class="searchbar" method="post" action="{% url 'home page' %}">
                                 {{ search_form }}
@@ -24,6 +24,7 @@
                                 </button>
                                 {% csrf_token %}
                             </form>
+                {% endif %}
                 <!-- End Searchbar Form -->
 
                 <!-- Start Pet Photos Post Section -->
@@ -79,6 +80,7 @@
                                     {{ photo.description }}
                                 </div>
                                 <br>
+                                {% if request.user.is_authenticated %}
                                 <span class="heart">
                                     <a href="{% url 'like travel photo' photo_id=photo.pk %}">
                                         {% if photo.is_liked_by_user %}
@@ -128,6 +130,7 @@
                                 </span>
                             </div>
                         </div>
+                                {% endif %}
                         <p class="likes">{{ photo.likes_count }} likes</p>
 
                         <!-- Link to Photo Details Page -->
@@ -173,7 +176,7 @@
                                     <!-- End Comments Section -->
                                 {% endfor %}
 
-
+                        {% if request.user.is_authenticated %}
                         <div class="addComments">
                             <div class="reaction">
                                 <h3>
@@ -186,10 +189,10 @@
                                 {% csrf_token %}
                             </form>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
-            {% endif %}
         </div>
     </div>
 {% endblock %}
