@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from travel_frame.accounts.forms import UserCreateForm
+from travel_frame.accounts.forms import UserCreateForm, LoginForm
 from travel_frame.accounts.mixins import OnlyOwnerAccessibleMixin
 from travel_frame.accounts.models import TravelUser
 from travel_frame.destinations.models import Country
@@ -17,6 +17,7 @@ UserModel = get_user_model()
 
 class LoginTravelView(LoginView):
     template_name = 'accounts/user-login.html'
+    form_class = LoginForm
 
 
 class RegisterTravelView(generic.CreateView):

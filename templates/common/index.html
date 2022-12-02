@@ -1,20 +1,8 @@
 {% extends 'common/base.html' %}
 {% load static %}
-
 {% block content %}
     <div class="container">
         <div class="col-9">
-{#            {% if not request.user.is_authenticated %}#}
-{#                <form method="post" action="{% url 'register user' %}">#}
-{#                    {{ form }}#}
-{#                {{ form.email}}#}
-{#                {{ form.password1|placeholder:'Password: ' }}#}
-{#                {{ form.password2|placeholder:'Repeat password: ' }}}}#}
-{#                <button type="submit">Register</button>#}
-{#                {% csrf_token %}#}
-{#                </form>#}
-{##}
-{#            {% else %}#}
                 {% if request.user.is_authenticated %}
                 <!-- Start Searchbar Form -->
                 <form class="searchbar" method="post" action="{% url 'home page' %}">
@@ -23,9 +11,9 @@
                                     <img src="{% static 'search.png' %}" height="18" alt="img2">
                                 </button>
                                 {% csrf_token %}
-                            </form>
-                {% endif %}
+                </form>
                 <!-- End Searchbar Form -->
+                {% endif %}
 
                 <!-- Start Pet Photos Post Section -->
                 {% for photo in travel_photos %}
@@ -46,7 +34,6 @@
                                 </div>
                             </div>
                             </a>
-
                             <h3>
                                 <!-- Link to User Profile Page -->
                                 <a href="{% url 'details user' pk=photo.user_id %}">
@@ -68,11 +55,9 @@
                             </h3>
                         </div>
                     </div>
-
                     <div class="imgBx" id="photo-{{ photo.pk }}">
                         <img src="/media/{{ photo.photo }}" alt="post" class="cover">
                     </div>
-
                     <div class="bottom">
                         <div class="actionBtns">
                             <div class="left">
@@ -80,7 +65,6 @@
                                     {{ photo.description }}
                                 </div>
                                 <br>
-                                {% if request.user.is_authenticated %}
                                 <span class="heart">
                                     <a href="{% url 'like travel photo' photo_id=photo.pk %}">
                                         {% if photo.is_liked_by_user %}
@@ -96,7 +80,6 @@
                                               d="M8 1.314C12.438-3.248 23.534 4.735
                                               8 15-7.534 4.736 3.562-3.248 8 1.314z"
                                               fill="red">
-
                                         </path>
                                         </svg>
                                         {% else %}
@@ -122,7 +105,6 @@
                                             </path>
                                             </svg>
                                         {% endif %}
-
                                     </a>
                                     <a href="{% url 'save travel photo' photo_id=photo.pk %}">
                                     <i>Add/remove favourites</i>
@@ -130,17 +112,13 @@
                                 </span>
                             </div>
                         </div>
-                                {% endif %}
                         <p class="likes">{{ photo.likes_count }} likes</p>
-
                         <!-- Link to Photo Details Page -->
                                 <a href="{% url 'details travel photo' pk=photo.pk %}">
                                     <h4 class="details">See details</h4>
                                 </a>
-
                         <!-- Date of Publication -->
                         <h5 class="postTime">{{ photo.date }}</h5>
-
                                     <!-- Start comment section -->
                                 {% for comment in photo.travelphotocomment_set.all %}
                                     <div class="comments">
@@ -151,22 +129,29 @@
                                                         <div class="profile_img">
                                                             <div class="image">
                                                                 {% if comment.user.profile_pic %}
-                                                                    <img src="/media/{{ comment.user.profile_pic }}" alt="profile-pic">
+                                                                    <a href="{% url 'details user' pk=comment.user.pk %}">
+                                                                        <img src="/media/{{ comment.user.profile_pic }}" alt="profile-pic">
+                                                                    <a/>
                                                                 {% else %}
-                                                                    <img src="{% static 'person.png' %}" alt="img8">
+                                                                    <a href="{% url 'details user' pk=comment.user.pk %}">
+                                                                        <img src="{% static 'person.png' %}" alt="img8">
+                                                                    <a/>
                                                                 {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <p>
                                                         {% if comment.user.get_full_name %}
-                                                        <a href="{% url 'details user' pk=comment.user.pk %}">{{ comment.user.get_full_name }}</a>
+                                                        <a href="{% url 'details user' pk=comment.user.pk %}">
+                                                            {{ comment.user.get_full_name }}
+                                                        </a>
                                                         {% else %}
-                                                        <a href="{% url 'details user' pk=comment.user.pk %}">{{ comment.user.username }}</a>
+                                                        <a href="{% url 'details user' pk=comment.user.pk %}">
+                                                            {{ comment.user.username }}
+                                                        </a>
                                                         {% endif %}
                                                         <!-- User Comment -->
                                                         {{ comment.comment }}
-
                                                     </p>
                                                 </div>
                                                 <span>{{ comment.date_and_time }}</span>
@@ -175,8 +160,6 @@
                                     </div>
                                     <!-- End Comments Section -->
                                 {% endfor %}
-
-                        {% if request.user.is_authenticated %}
                         <div class="addComments">
                             <div class="reaction">
                                 <h3>
@@ -189,7 +172,6 @@
                                 {% csrf_token %}
                             </form>
                         </div>
-                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

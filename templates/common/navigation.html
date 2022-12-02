@@ -12,10 +12,11 @@
                 <i>Travel Frame</i>
             </a>
         </div>
-        {% if request.user.is_authenticated %}
+
         <div class="nav-links">
             <ul class="nav-group">
                 <li class="nav-item">
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'post travel photo' %}">
                         <i>Post Travel Photo</i>
                     </a>

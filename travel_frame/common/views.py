@@ -13,8 +13,8 @@ UserModel = get_user_model()
 
 def index(request):
 
-    if not request.user.is_authenticated:
-        return render(request, 'accounts/user-login.html')
+    # if not request.user.is_authenticated:
+    #     return render(request, 'accounts/user-login.html')
 
     travel_photos = TravelPhoto.objects.all()
 

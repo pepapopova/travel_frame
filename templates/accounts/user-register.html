@@ -1,18 +1,22 @@
-
 {% extends 'common/base.html' %}
-
-{#{% load placeholders %}#}
+{% load my_custom_tags %}
 
 {% block content %}
     <div class="login-register-div">
         <div class="login-register-box">
             <h1>Travel Frame</h1>
-
             <form method="post" action="{% url 'register user' %}">
-                {{ form }}
-{#                {{ form.email}}#}
-{#                {{ form.password1|placeholder:'Password: ' }}#}
-{#                {{ form.password2|placeholder:'Repeat password: ' }}}}#}
+                {{ form.username |placeholder:'Username: ' }}
+                {{ form.username.errors }}
+                {{ form.email |placeholder:'Email: '}}
+                {{ form.email.errors}}
+                {{ form.gender}}
+                {{ form.age|placeholder:'Age: ' }}
+                {{ form.age.errors }}
+                {{ form.password1|placeholder:'Password:'}}
+                {{ form.password2|placeholder:'Repeat password:'}}
+                {{ form.password1.errors}}
+                {{ form.password2.errors}}
                 <button type="submit">Register</button>
                 {% csrf_token %}
             </form>
@@ -25,3 +29,15 @@
     </div>
 
 {% endblock %}
+
+{#{% extends 'common/base.html' %}#}
+{#{% block content %}#}
+{#    <div class="edit-delete edit-photo">#}
+{#        <h2>Post travel photo</h2>#}
+{#        <form method="post" action="{% url 'register user' %}">#}
+{#            {{ form.as_p }}#}
+{#            <button class="add-btn" type="submit">Register</button>#}
+{#            {% csrf_token %}#}
+{#        </form>#}
+{#    </div>#}
+{#{% endblock %}#}
