@@ -13,9 +13,6 @@ UserModel = get_user_model()
 
 def index(request):
 
-    # if not request.user.is_authenticated:
-    #     return render(request, 'accounts/user-login.html')
-
     travel_photos = TravelPhoto.objects.all()
 
     search_form = SearchTravelPhotosForm(request.POST)
