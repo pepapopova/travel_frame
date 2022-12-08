@@ -70,13 +70,13 @@ class UserDetailsView(LoginRequiredMixin, generic.DetailView):
         context['visited_countries'] = visited_countries
         context['visited_countries_count'] = len(visited_countries)
 
-        # travel_photos = self.object.travelphoto_set.order_by('-date')
-        # paginator = Paginator(travel_photos, 5)
-        # page_number = self.request.GET.get('page') or 1
-        # page_obj = paginator.get_page(page_number)
-        # context['paginator'] = paginator
-        # context['page_number'] = page_number
-        # context['page_obj'] = page_obj
+        travel_photos = self.object.travelphoto_set.order_by('-date')
+        paginator = Paginator(travel_photos, 5)
+        page_number = self.request.GET.get('page') or 1
+        page_obj = paginator.get_page(page_number)
+        context['paginator'] = paginator
+        context['page_number'] = page_number
+        context['page_obj'] = page_obj
 
         return context
 
