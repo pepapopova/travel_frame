@@ -22,7 +22,7 @@ class TravelPhoto(models.Model):
         max_length=DESCRIPTION_MAX_LENGTH,
     )
 
-    date = models.DateField(
+    date = models.DateTimeField(
         auto_now_add=True,
         null=False,
         blank=True,
