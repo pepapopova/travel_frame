@@ -27,3 +27,5 @@ def add_destination(request):
         'destinations/add_destination.html',
         context,
     )
+
+

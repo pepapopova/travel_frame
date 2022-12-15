@@ -3,6 +3,7 @@ from django.db import models
 
 from travel_frame.core.validators import validate_image
 from travel_frame.destinations.models import Country
+from travel_frame.core.validators import validate_start_with_capital, validate_only_letters
 
 UserModel = get_user_model()
 
@@ -40,6 +41,8 @@ class TravelPhoto(models.Model):
 
     city = models.CharField(
         max_length=CITY_MAX_LENGTH,
+        validators=(validate_start_with_capital,
+                    validate_only_letters,),
         null=True,
         blank=False,
     )

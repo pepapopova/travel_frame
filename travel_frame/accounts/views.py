@@ -26,10 +26,15 @@ class RegisterTravelView(generic.CreateView):
     form_class = UserCreateForm
     success_url = reverse_lazy('home page')
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return redirect('home page')
+    # def form_valid(self, form):
+    #     user = form.save()
+    #     login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+    #     return redirect('home page')
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        login(request, self.object)
+        return response
 
 
 class LogoutTravelView(LogoutView):
@@ -40,24 +45,12 @@ class UserDetailsView(LoginRequiredMixin, generic.DetailView):
     template_name = 'accounts/user-details.html'
     model = UserModel
     login_url = reverse_lazy('login user')
-    # photos_paginate_by = 4
-
-    # def get_photos_page(self):
-    #     return self.request.GET.get('page', 1)
-    #
-    # def get_paginated_photos(self):
-    #     page = self.get_photos_page()
-    #     photos = self.object.travelphoto_set \
-    #         .order_by('-date')
-    #
-    #     paginator = Paginator(photos, self.photos_paginate_by)
-    #     return paginator.get_page(page)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context['is_owner'] = self.request.user == self.object
-        # context['travel_photos'] = self.get_paginated_photos() - #if using paginator
+
         context['travel_photos'] = self.object.travelphoto_set.all()
         context['travel_photos_count'] = self.object.travelphoto_set.count()
 
@@ -69,14 +62,6 @@ class UserDetailsView(LoginRequiredMixin, generic.DetailView):
         visited_countries = set(Country.objects.filter(travelphoto__user_id=self.object.pk))
         context['visited_countries'] = visited_countries
         context['visited_countries_count'] = len(visited_countries)
-
-        # travel_photos = self.object.travelphoto_set.order_by('-date')
-        # paginator = Paginator(travel_photos, 5)
-        # page_number = self.request.GET.get('page') or 1
-        # page_obj = paginator.get_page(page_number)
-        # context['paginator'] = paginator
-        # context['page_number'] = page_number
-        # context['page_obj'] = page_obj
 
         return context
 
@@ -117,7 +102,8 @@ class UserFavoritesView(OnlyOwnerAccessibleMixin, LoginRequiredMixin, generic.De
         context['is_owner'] = self.request.user == self.object
         context['travel_photos_count'] = self.object.travelphoto_set.count()
         context['travel_photos'] = TravelPhoto.objects.all()
-        context['likes_count'] = self.object.travelphoto_set.count()
+        liked_photos = self.object.travelphoto_set.prefetch_related('travelphotolike_set')
+        context['likes_count'] = sum(x.travelphotolike_set.count() for x in liked_photos)
         context['saved_photos'] = TravelPhoto.objects.filter(travelphotosave__user_id=self.object.pk)
         context['favourites_count'] = self.object.travelphotosave_set.count()
 

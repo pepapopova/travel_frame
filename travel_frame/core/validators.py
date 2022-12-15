@@ -6,6 +6,10 @@ def validate_only_letters(value):
         raise ValidationError('Field must contain only letters!')
 
 
+def validate_start_with_capital(value):
+    if not value[0].isupper():
+        raise ValidationError('Field should start with capital letter!')
+
 def validate_image(value):
     filesize = value.file.size
     megabyte_limit = 5.0

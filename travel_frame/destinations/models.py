@@ -1,6 +1,6 @@
 from django.db import models
 
-from travel_frame.core.validators import validate_only_letters, validate_image
+from travel_frame.core.validators import validate_only_letters, validate_image, validate_start_with_capital
 
 
 def max_len(choices):
@@ -25,6 +25,7 @@ class Country(models.Model):
     name = models.CharField(
         max_length=COUNTRY_MAX_LENGTH,
         validators=(validate_only_letters,
+                    validate_start_with_capital,
                     )
     )
 
